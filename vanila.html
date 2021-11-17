@@ -1,17 +1,70 @@
 <!DOCTYPE html>
-    <body>
-        <span>Total Clicks: 0</span>
-        <button id="btn">Click me</button>
-    </body>
-    <script>
-        let counter = 0;
-        const button = document.querySelector("#btn");
-        const span = document.querySelector("span");
-        function handlClick(){
-            console.log("I have been clicked");            
-            counter = counter + 1;
-            span.innerText = `Total Clicks: ${counter}`;
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> 
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+    const root = document.querySelector("#root");    
+
+    function HoursAndMinutes(){
+        const [amount, setAmount] = React.useState(0);
+        const [toggle, setToggle] = React.useState(true);
+        function onChange(event){
+            setAmount(event.target.value);
         }
-        button.addEventListener("click", handlClick);
-    </script>        
+        function onToggleBtnClick(event){
+            console.log(toggle);
+            setToggle(!toggle);
+        }
+
+        return(
+            <div> 
+                <h3>Hours and Minutes</h3>
+                <div>
+                    <label for="hours">Hours : </label>
+                    <input type="nubmer" placeholder="Hours" id="hours" onChange={onChange}></input>
+                </div>
+                <div>
+                    <label for="Minutes">Minutes : </label>
+                    <input type="nubmer" placeholder="Minutes" id="Minutes" value={amount*60}></input>                    
+                </div>
+                <button onClick={onToggleBtnClick}>Toggle</button>
+            </div>
+        );
+    }
+
+    function KmAndMiles(){
+        console.log("test");
+        return(
+            <div> 
+                <h3>Km and Miles</h3>                
+            </div>
+        );
+    }
+
+    function App(){
+        const [index, setIndex] = React.useState("0");
+        const onSelectchange = (event) => {    
+            setIndex(event.target.value);
+        }
+        return(            
+            <div>
+            <h3>Custom Converter</h3>
+            <select onChange={onSelectchange}>
+                <option value="0">Select option</option>
+                <option value="1">Hours and Minutes</option>
+                <option value="2">Km and Miles</option>
+            </select>             
+            {index==="1"?<HoursAndMinutes/>:null}           
+            {index==="2"?<KmAndMiles/>:null}   
+            </div>
+        );        
+    }
+
+    ReactDOM.render(<App/>, root);
+
+</script>
 </html>
